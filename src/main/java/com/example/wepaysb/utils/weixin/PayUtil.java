@@ -13,10 +13,11 @@ import java.security.SignatureException;
 import java.util.*;
 
 public class PayUtil {
-	 /**
+    /**
      * 签名字符串
-     * @param text 需要签名的字符串
-     * @param key 密钥
+     *
+     * @param text          需要签名的字符串
+     * @param key           密钥
      * @param input_charset 编码格式
      * @return 签名结果
      */
@@ -24,11 +25,13 @@ public class PayUtil {
         text = text + "&key=" + key;
         return DigestUtils.md5Hex(getContentBytes(text, input_charset));
     }
+
     /**
      * 签名字符串
-     *  @param text 需要签名的字符串
-     * @param sign 签名结果
-     * @param key 密钥
+     *
+     * @param text          需要签名的字符串
+     * @param sign          签名结果
+     * @param key           密钥
      * @param input_charset 编码格式
      * @return 签名结果
      */
@@ -41,6 +44,7 @@ public class PayUtil {
             return false;
         }
     }
+
     /**
      * @param content
      * @param charset
@@ -58,8 +62,10 @@ public class PayUtil {
             throw new RuntimeException("MD5签名过程中出现错误,指定的编码集不对,您目前指定的编码集是:" + charset);
         }
     }
+
     /**
      * 生成6位或10位随机数 param codeLength(多少位)
+     *
      * @return
      */
     public static String createCode(int codeLength) {
@@ -69,6 +75,7 @@ public class PayUtil {
         }
         return code;
     }
+
     private static boolean isValidChar(char ch) {
         if ((ch >= '0' && ch <= '9') || (ch >= 'A' && ch <= 'Z') || (ch >= 'a' && ch <= 'z'))
             return true;
@@ -76,8 +83,10 @@ public class PayUtil {
             return true;// 简体中文汉字编码
         return false;
     }
+
     /**
      * 除去数组中的空值和签名参数
+     *
      * @param sArray 签名参数组
      * @return 去掉空值与签名参数后的新签名参数组
      */
@@ -96,8 +105,10 @@ public class PayUtil {
         }
         return result;
     }
+
     /**
      * 把数组所有元素排序，并按照“参数=参数值”的模式用“&”字符拼接成字符串
+     *
      * @param params 需要排序并参与字符拼接的参数组
      * @return 拼接后字符串
      */
@@ -116,117 +127,123 @@ public class PayUtil {
         }
         return prestr;
     }
+
     /**
-     *
-     * @param requestUrl 请求地址
+     * @param requestUrl    请求地址
      * @param requestMethod 请求方法
-     * @param outputStr 参数
+     * @param outputStr     参数
      */
-    public static String httpRequest(String requestUrl,String requestMethod,String outputStr){
+    public static String httpRequest(String requestUrl, String requestMethod, String outputStr) {
         // 创建SSLContext
         StringBuffer buffer = null;
-        try{
-	        URL url = new URL(requestUrl);
-	        HttpURLConnection conn = (HttpURLConnection) url.openConnection();
-	        conn.setRequestMethod(requestMethod);
-	        conn.setDoOutput(true);
-	        conn.setDoInput(true);
-	        conn.connect();
-	        //往服务器端写内容
-	        if(null !=outputStr){
-	            OutputStream os=conn.getOutputStream();
-	            os.write(outputStr.getBytes("utf-8"));
-	            os.close();
-	        }
-	        // 读取服务器端返回的内容
-	        InputStream is = conn.getInputStream();
-	        InputStreamReader isr = new InputStreamReader(is, "utf-8");
-	        BufferedReader br = new BufferedReader(isr);
-	        buffer = new StringBuffer();
-	        String line = null;
-	        while ((line = br.readLine()) != null) {
-	        	buffer.append(line);
-	        }
-	        br.close();
-        }catch(Exception e){
+        try {
+            URL url = new URL(requestUrl);
+            HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+            conn.setRequestMethod(requestMethod);
+            conn.setDoOutput(true);
+            conn.setDoInput(true);
+            conn.connect();
+            //往服务器端写内容
+            if (null != outputStr) {
+                OutputStream os = conn.getOutputStream();
+                os.write(outputStr.getBytes("utf-8"));
+                os.close();
+            }
+            // 读取服务器端返回的内容
+            InputStream is = conn.getInputStream();
+            InputStreamReader isr = new InputStreamReader(is, "utf-8");
+            BufferedReader br = new BufferedReader(isr);
+            buffer = new StringBuffer();
+            String line = null;
+            while ((line = br.readLine()) != null) {
+                buffer.append(line);
+            }
+            br.close();
+        } catch (Exception e) {
             e.printStackTrace();
         }
         return buffer.toString();
     }
-    public static String urlEncodeUTF8(String source){
-        String result=source;
+
+    public static String urlEncodeUTF8(String source) {
+        String result = source;
         try {
-            result=java.net.URLEncoder.encode(source, "UTF-8");
+            result = java.net.URLEncoder.encode(source, "UTF-8");
         } catch (UnsupportedEncodingException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
         }
         return result;
     }
+
     /**
-	 * 解析xml,返回第一级元素键值对。如果第一级元素有子节点，则此节点的值是子节点的xml数据。
-	 * @param strxml
-	 * @return
-	 * @throws JDOMException
-	 * @throws IOException
-	 */
-	public static Map doXMLParse(String strxml) throws Exception {
-		if(null == strxml || "".equals(strxml)) {
-			return null;
-		}
+     * 解析xml,返回第一级元素键值对。如果第一级元素有子节点，则此节点的值是子节点的xml数据。
+     *
+     * @param strxml
+     * @return
+     * @throws JDOMException
+     * @throws IOException
+     */
+    public static Map doXMLParse(String strxml) throws Exception {
+        if (null == strxml || "".equals(strxml)) {
+            return null;
+        }
 
-		Map m = new HashMap();
-		InputStream in = String2Inputstream(strxml);
-		SAXBuilder builder = new SAXBuilder();
-		Document doc = builder.build(in);
-		Element root = doc.getRootElement();
-		List list = root.getChildren();
-		Iterator it = list.iterator();
-		while(it.hasNext()) {
-			Element e = (Element) it.next();
-			String k = e.getName();
-			String v = "";
-			List children = e.getChildren();
-			if(children.isEmpty()) {
-				v = e.getTextNormalize();
-			} else {
-				v = getChildrenText(children);
-			}
+        Map m = new HashMap();
+        InputStream in = String2Inputstream(strxml);
+        SAXBuilder builder = new SAXBuilder();
+        Document doc = builder.build(in);
+        Element root = doc.getRootElement();
+        List list = root.getChildren();
+        Iterator it = list.iterator();
+        while (it.hasNext()) {
+            Element e = (Element) it.next();
+            String k = e.getName();
+            String v = "";
+            List children = e.getChildren();
+            if (children.isEmpty()) {
+                v = e.getTextNormalize();
+            } else {
+                v = getChildrenText(children);
+            }
 
-			m.put(k, v);
-		}
+            m.put(k, v);
+        }
 
-		//关闭流
-		in.close();
+        //关闭流
+        in.close();
 
-		return m;
-	}
-	/**
-	 * 获取子结点的xml
-	 * @param children
-	 * @return String
-	 */
-	public static String getChildrenText(List children) {
-		StringBuffer sb = new StringBuffer();
-		if(!children.isEmpty()) {
-			Iterator it = children.iterator();
-			while(it.hasNext()) {
-				Element e = (Element) it.next();
-				String name = e.getName();
-				String value = e.getTextNormalize();
-				List list = e.getChildren();
-				sb.append("<" + name + ">");
-				if(!list.isEmpty()) {
-					sb.append(getChildrenText(list));
-				}
-				sb.append(value);
-				sb.append("</" + name + ">");
-			}
-		}
+        return m;
+    }
 
-		return sb.toString();
-	}
-	public static InputStream String2Inputstream(String str) {
-		return new ByteArrayInputStream(str.getBytes());
-	}
+    /**
+     * 获取子结点的xml
+     *
+     * @param children
+     * @return String
+     */
+    public static String getChildrenText(List children) {
+        StringBuffer sb = new StringBuffer();
+        if (!children.isEmpty()) {
+            Iterator it = children.iterator();
+            while (it.hasNext()) {
+                Element e = (Element) it.next();
+                String name = e.getName();
+                String value = e.getTextNormalize();
+                List list = e.getChildren();
+                sb.append("<" + name + ">");
+                if (!list.isEmpty()) {
+                    sb.append(getChildrenText(list));
+                }
+                sb.append(value);
+                sb.append("</" + name + ">");
+            }
+        }
+
+        return sb.toString();
+    }
+
+    public static InputStream String2Inputstream(String str) {
+        return new ByteArrayInputStream(str.getBytes());
+    }
 }
