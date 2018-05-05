@@ -48,11 +48,11 @@ public class WeixinController extends WeixinSupport {
     /**
      * 小程序后台登录，向微信平台发送获取access_token请求，并返回openId
      *
-     * @param code
+     * @param code    微信小程序登陆时得到的code
+     * @param request
      * @return openid
      * @throws WeixinException
      * @throws IOException
-     * @since Weixin4J 1.0.0
      */
     @RequestMapping("login")
     public Map<String, Object> login(String code, HttpServletRequest request) throws WeixinException, IOException {
@@ -87,11 +87,11 @@ public class WeixinController extends WeixinSupport {
     }
 
     /**
+     * 发起微信支付
+     *
      * @param openid
      * @param request
-     * @Description: 发起微信支付
-     * @author: wcf
-     * @date: 2017年8月28日
+     * @return
      */
     @RequestMapping("wxPay")
     public Json wxPay(String openid, HttpServletRequest request) {
@@ -187,12 +187,11 @@ public class WeixinController extends WeixinSupport {
     }
 
     /**
-     * @return
+     * 微信服务器通知支付结果API
+     *
+     * @param request
+     * @param response
      * @throws Exception
-     * @throws WeixinException
-     * @Description:微信支付
-     * @author dzg
-     * @date 2016年12月2日
      */
     @RequestMapping(value = "/wxNotify")
     public void wxNotify(HttpServletRequest request, HttpServletResponse response) throws Exception {
@@ -230,6 +229,7 @@ public class WeixinController extends WeixinSupport {
         System.out.println(resXml);
         System.out.println("微信支付回调数据结束");
 
+        //商户处理后同步返回给微信信息，参考：https://pay.weixin.qq.com/wiki/doc/api/wxa/wxa_api.php?chapter=9_7&index=8
         BufferedOutputStream out = new BufferedOutputStream(
                 response.getOutputStream());
         out.write(resXml.getBytes());
