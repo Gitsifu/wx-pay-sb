@@ -56,7 +56,7 @@
             <version>1.10</version>
         </dependency>
         <!-- https://mvnrepository.com/artifact/org.weixin4j/weixin4j -->
-        <!--这个依赖包需要0.0.9的才行，不然会出现兼容问题，但是maven仓库中只有0.0.7的-->
+        <!--这个依赖包需要0.0.9的才行，不然会出现兼容问题，但是maven仓库中只有0.0.7的，以下微信公众号jar包配置引用本地jar包，此包较普遍，网上即可下载-->
         <!--   <dependency>
                <groupId>org.weixin4j</groupId>
                <artifactId>weixin4j</artifactId>
