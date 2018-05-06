@@ -57,11 +57,19 @@
         </dependency>
         <!-- https://mvnrepository.com/artifact/org.weixin4j/weixin4j -->
         <!--这个依赖包需要0.0.9的才行，不然会出现兼容问题，但是maven仓库中只有0.0.7的-->
-     <!--   <dependency>
-            <groupId>org.weixin4j</groupId>
+        <!--   <dependency>
+               <groupId>org.weixin4j</groupId>
+               <artifactId>weixin4j</artifactId>
+               <version>0.0.7</version>
+           </dependency>-->
+        <!-- 微信公众号jar包 -->
+        <dependency>
+            <groupId>weixin</groupId>
             <artifactId>weixin4j</artifactId>
-            <version>0.0.7</version>
-        </dependency>-->
+            <version>0.0.9.1</version>
+            <scope>system</scope>
+            <systemPath>${project.basedir}/src/main/resources/weixin4j-0.0.9.1.jar</systemPath>
+        </dependency>
     </dependencies>
 
     <build>
@@ -72,6 +80,5 @@
             </plugin>
         </plugins>
     </build>
-
 
 </project>
