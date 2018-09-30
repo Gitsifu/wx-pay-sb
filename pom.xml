@@ -62,14 +62,23 @@
                <artifactId>weixin4j</artifactId>
                <version>0.0.7</version>
            </dependency>-->
-        <!-- 微信公众号jar包 -->
+
+        <!--最新稳定微信开发包-->
+        <!-- https://mvnrepository.com/artifact/org.weixin4j/weixin4j -->
         <dependency>
+            <groupId>org.weixin4j</groupId>
+            <artifactId>weixin4j</artifactId>
+            <version>0.1.3</version>
+        </dependency>
+
+        <!-- 微信公众号jar包 -->
+<!--        <dependency>
             <groupId>org.weixin4j</groupId>
             <artifactId>weixin4j</artifactId>
             <version>0.0.9.1</version>
             <scope>system</scope>
             <systemPath>${project.basedir}/src/main/resources/weixin4j-0.0.9.1.jar</systemPath>
-        </dependency>
+        </dependency>-->
     </dependencies>
 
     <build>
